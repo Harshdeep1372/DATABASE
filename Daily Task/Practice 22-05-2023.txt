@@ -1,0 +1,601 @@
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 8.0.33 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database harsh;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use harsh;
+Database changed
+mysql> create table harsh_1(SubNo int, SubName varchar, Marks int, passOrfail varchar);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ', Marks int, passOrfail varchar)' at line 1
+mysql> create table harsh_1(SubNo int, SubName varchar, Marks int, Result varchar);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ', Marks int, Result varchar)' at line 1
+mysql> create table harsh_1(SubNo int, SubName varchar(50), Marks int, Result varchar(50));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> Show tables;
++-----------------+
+| Tables_in_harsh |
++-----------------+
+| harsh_1         |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> show * from harsh_1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from harsh_1' at line 1
+mysql> select * from harsh_1;
+Empty set (0.00 sec)
+
+mysql> insert into harsh_1 values(1,"c language", 50, pass),(2,"c++ language", 40, pass),(1,"python language", 40, pass),(1,"c# language", 45, pass);
+ERROR 1054 (42S22): Unknown column 'pass' in 'field list'
+mysql> insert into harsh_1 values(1,"c language", 50, "pass"),(2,"c++ language", 40, "pass"),(1,"python language", 40, "pass"),(1,"c# language", 45, "pass");
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from harsh_1;
++-------+-----------------+-------+--------+
+| SubNo | SubName         | Marks | Result |
++-------+-----------------+-------+--------+
+|     1 | c language      |    50 | pass   |
+|     2 | c++ language    |    40 | pass   |
+|     1 | python language |    40 | pass   |
+|     1 | c# language     |    45 | pass   |
++-------+-----------------+-------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * from harsh_1 where subno = 2;
++-------+--------------+-------+--------+
+| SubNo | SubName      | Marks | Result |
++-------+--------------+-------+--------+
+|     2 | c++ language |    40 | pass   |
++-------+--------------+-------+--------+
+1 row in set (0.01 sec)
+
+mysql> update harsh_1 set subno = 3 where subname=pythone language;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'language' at line 1
+mysql> update harsh_1 set subno = 3 where subname=python language;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'language' at line 1
+mysql> update harsh_1 set SubNo = 3 where SubName="python language";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update harsh_1 set SubNo = 4 where SubName="c# language";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from harsh_1;
++-------+-----------------+-------+--------+
+| SubNo | SubName         | Marks | Result |
++-------+-----------------+-------+--------+
+|     1 | c language      |    50 | pass   |
+|     2 | c++ language    |    40 | pass   |
+|     3 | python language |    40 | pass   |
+|     4 | c# language     |    45 | pass   |
++-------+-----------------+-------+--------+
+4 rows in set (0.00 sec)
+
+mysql> update harsh_1 set Marks=43 where SubName="python language";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> DESC harsh_1;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| SubNo   | int         | YES  |     | NULL    |       |
+| SubName | varchar(50) | YES  |     | NULL    |       |
+| Marks   | int         | YES  |     | NULL    |       |
+| Result  | varchar(50) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select distinct marks from harsh_1;
++-------+
+| marks |
++-------+
+|    50 |
+|    40 |
+|    43 |
+|    45 |
++-------+
+4 rows in set (0.01 sec)
+
+mysql> select distinct result from harsh_1;
++--------+
+| result |
++--------+
+| pass   |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select subname from harsh_1 where subname like '%a';
+Empty set (0.01 sec)
+
+mysql> select subname from harsh_1 where subname like 'c';
+Empty set (0.00 sec)
+
+mysql> select * from harsh_1 where subname like 'c';
+Empty set (0.00 sec)
+
+mysql> select * from harsh_1 where subname like '%c';
+Empty set (0.00 sec)
+
+mysql> select * from harsh_1 where subname like '%l'%;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%' at line 1
+mysql> select * from harsh_1 where subname like '%l%';
++-------+-----------------+-------+--------+
+| SubNo | SubName         | Marks | Result |
++-------+-----------------+-------+--------+
+|     1 | c language      |    50 | pass   |
+|     2 | c++ language    |    40 | pass   |
+|     3 | python language |    43 | pass   |
+|     4 | c# language     |    45 | pass   |
++-------+-----------------+-------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * harsh_1 where subname="python language" and marks>=40;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'harsh_1 where subname="python language" and marks>=40' at line 1
+mysql> select * harsh_1 where subname="python language" and marks<=40;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'harsh_1 where subname="python language" and marks<=40' at line 1
+mysql> select * harsh_1 where subname='python language' and marks<=40;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'harsh_1 where subname='python language' and marks<=40' at line 1
+mysql> select * from harsh_1 where subname='python language' and marks<=40;
+Empty set (0.01 sec)
+
+mysql> select * from harsh_1 where subname='python language' or marks<=40;
++-------+-----------------+-------+--------+
+| SubNo | SubName         | Marks | Result |
++-------+-----------------+-------+--------+
+|     2 | c++ language    |    40 | pass   |
+|     3 | python language |    43 | pass   |
++-------+-----------------+-------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from harsh_1 where subname='python language' IN(select * from harsh_1 where marks=43);
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> select * from harsh_1 where subname IN(select max(marks) from harsh_1);
+Empty set (0.01 sec)
+
+mysql> select * from harsh_1 where marks IN(select max(marks) from harsh_1);
++-------+------------+-------+--------+
+| SubNo | SubName    | Marks | Result |
++-------+------------+-------+--------+
+|     1 | c language |    50 | pass   |
++-------+------------+-------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from harsh_1 where marks IN(select avg(marks) from harsh_1);
+Empty set (0.01 sec)
+
+mysql> select * from harsh_1 where marks IN(select min(marks) from harsh_1);
++-------+--------------+-------+--------+
+| SubNo | SubName      | Marks | Result |
++-------+--------------+-------+--------+
+|     2 | c++ language |    40 | pass   |
++-------+--------------+-------+--------+
+1 row in set (0.00 sec)
+
+mysql> select COUNT(Marks),subname from harsh_1 group by subname;
++--------------+-----------------+
+| COUNT(Marks) | subname         |
++--------------+-----------------+
+|            1 | c language      |
+|            1 | c++ language    |
+|            1 | python language |
+|            1 | c# language     |
++--------------+-----------------+
+4 rows in set (0.01 sec)
+
+mysql> select COUNT(Marks),subname from harsh_1 group by subname HAVING(sum(marks));
++--------------+-----------------+
+| COUNT(Marks) | subname         |
++--------------+-----------------+
+|            1 | c language      |
+|            1 | c++ language    |
+|            1 | python language |
+|            1 | c# language     |
++--------------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> alter table harsh_1 ADD KEY_H1()
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '()' at line 1
+mysql> alter table harsh_1 ADD KEY_H1(subname);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(subname)' at line 1
+mysql>
+
+
+       insert into harsh_1 values(1,"c language", 50, pass),(2,"c++ language", 40, pass),(1,"python language", 40, pass),(1,"c# language", 45, pass);
+ERROR 1054 (42S22): Unknown column 'pass' in 'field list'
+mysql> alter table harsh_1 ADD (subname);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> alter table harsh_1 ADD UNIQUE KEY(subname);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC harsh_1;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| SubNo   | int         | YES  |     | NULL    |       |
+| SubName | varchar(50) | YES  | UNI | NULL    |       |
+| Marks   | int         | YES  |     | NULL    |       |
+| Result  | varchar(50) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table harsh_1 ADD PRIMARY KEY(subno);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC harsh_1;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| SubNo   | int         | NO   | PRI | NULL    |       |
+| SubName | varchar(50) | YES  | UNI | NULL    |       |
+| Marks   | int         | YES  |     | NULL    |       |
+| Result  | varchar(50) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> create table orders(cid int,oid int PRIMARY KEY, p_name varchar(20)
+    ->     -> FOREIGN KEY (cid)
+    ->     ->   REFERENCES customer(ID)
+    ->     ->   ON DELETE CASCADE
+    ->     ->   ON update CASCADE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> FOREIGN KEY (cid)
+    ->   REFERENCES customer(ID)
+    ->   ON DELETE CASCADE' at line 2
+mysql> create table harsh_2(SubNo int, Name varchar PRIMARY KEY, MARK int)
+    -> FOREIGN KEY (SubNo)
+    -> REFERENCES harsh_1
+    -> ON DELETE CASCADE
+    -> ON UPDATE CASCADE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'PRIMARY KEY, MARK int)
+FOREIGN KEY (SubNo)
+REFERENCES harsh_1
+ON DELETE CASCADE
+' at line 1
+mysql> create table harsh_2(SubNo int, Name varchar(50) PRIMARY KEY, MARK int)
+    -> FOREIGN KEY (SubNo)
+    -> REFERENCES harsh_1
+    -> ON DELETE CASCADE
+    -> ON UPDATE CASCADE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FOREIGN KEY (SubNo)
+REFERENCES harsh_1
+ON DELETE CASCADE
+ON UPDATE CASCADE' at line 2
+mysql> create table harsh_2(SubNo int, Name varchar PRIMARY KEY, MARK int)
+    -> FOREIGN KEY (Sub)
+    -> REFERENCES harsh_1
+    -> ON DELETE CASCADE
+    -> ON UPDATE CASCADE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'PRIMARY KEY, MARK int)
+FOREIGN KEY (Sub)
+REFERENCES harsh_1
+ON DELETE CASCADE
+ON' at line 1
+mysql> create table harsh_2(SubNo int, Name varchar(50) PRIMARY KEY, MARK int
+    -> FOREIGN KEY (SubNo)
+    -> REFERENCES harsh_1
+    -> ON DELETE CASCADE
+    -> ON UPDATE CASCADE);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FOREIGN KEY (SubNo)
+REFERENCES harsh_1
+ON DELETE CASCADE
+ON UPDATE CASCADE)' at line 2
+mysql> select * from harsh_1;
++-------+-----------------+-------+--------+
+| SubNo | SubName         | Marks | Result |
++-------+-----------------+-------+--------+
+|     1 | c language      |    50 | pass   |
+|     2 | c++ language    |    40 | pass   |
+|     3 | python language |    43 | pass   |
+|     4 | c# language     |    45 | pass   |
++-------+-----------------+-------+--------+
+4 rows in set (0.00 sec)
+
+mysql> create table harsh_2(SubNo int, Name varchar(50) PRIMARY KEY, MARK int
+    -> FOREIGN KEY (SubNo)
+    -> REFERENCES harsh_1(SubNo)
+    -> ON DELETE CASCADE
+    -> ON UPDATE CASCADE);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FOREIGN KEY (SubNo)
+REFERENCES harsh_1(SubNo)
+ON DELETE CASCADE
+ON UPDATE CASCAD' at line 2
+mysql> create table harsh_2(SubNo int, Name varchar(50) PRIMARY KEY, MARK int,
+    -> FOREIGN KEY (SubNo)
+    -> REFERENCES harsh_1(SubNo)
+    -> ON DELETE CASCADE
+    -> ON UPDATE CASCADE);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select * from harsh_2;
+Empty set (0.00 sec)
+
+mysql> DESC harsh_2;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| SubNo | int         | YES  | MUL | NULL    |       |
+| Name  | varchar(50) | NO   | PRI | NULL    |       |
+| MARK  | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into harsh_2 values(1,"PHP",50),(2,"PHP2",45),(3,"PHP",65);
+ERROR 1062 (23000): Duplicate entry 'PHP' for key 'harsh_2.PRIMARY'
+mysql> insert into harsh_2 values(1,"PHP",50),(2,"p",45),(3,"s",65);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from harsh_2;
++-------+------+------+
+| SubNo | Name | MARK |
++-------+------+------+
+|     2 | p    |   45 |
+|     1 | PHP  |   50 |
+|     3 | s    |   65 |
++-------+------+------+
+3 rows in set (0.00 sec)
+
+mysql> select * from harsh_1;
++-------+-----------------+-------+--------+
+| SubNo | SubName         | Marks | Result |
++-------+-----------------+-------+--------+
+|     1 | c language      |    50 | pass   |
+|     2 | c++ language    |    40 | pass   |
+|     3 | python language |    43 | pass   |
+|     4 | c# language     |    45 | pass   |
++-------+-----------------+-------+--------+
+4 rows in set (0.00 sec)
+
+mysql> set autocommit=0;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update student set SubName="NodeJs" where SubNo=4;
+ERROR 1146 (42S02): Table 'harsh.student' doesn't exist
+mysql> update harsh_1 set SubName="NodeJs" where SubNo=4;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from harsh_1;
++-------+-----------------+-------+--------+
+| SubNo | SubName         | Marks | Result |
++-------+-----------------+-------+--------+
+|     1 | c language      |    50 | pass   |
+|     2 | c++ language    |    40 | pass   |
+|     3 | python language |    43 | pass   |
+|     4 | NodeJs          |    45 | pass   |
++-------+-----------------+-------+--------+
+4 rows in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from harsh_1;
++-------+-----------------+-------+--------+
+| SubNo | SubName         | Marks | Result |
++-------+-----------------+-------+--------+
+|     1 | c language      |    50 | pass   |
+|     2 | c++ language    |    40 | pass   |
+|     3 | python language |    43 | pass   |
+|     4 | c# language     |    45 | pass   |
++-------+-----------------+-------+--------+
+4 rows in set (0.00 sec)
+
+mysql> set autocommit=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update student set SubName="NodeJs" where SubNo=4;
+ERROR 1146 (42S02): Table 'harsh.student' doesn't exist
+mysql> update harsh_1 set SubName="NodeJs" where SubNo=4;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from harsh_1;
++-------+-----------------+-------+--------+
+| SubNo | SubName         | Marks | Result |
++-------+-----------------+-------+--------+
+|     1 | c language      |    50 | pass   |
+|     2 | c++ language    |    40 | pass   |
+|     3 | python language |    43 | pass   |
+|     4 | NodeJs          |    45 | pass   |
++-------+-----------------+-------+--------+
+4 rows in set (0.00 sec)
+
+mysql> insert into harsh_1 values(5,"C#",44,"pass");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from harsh_1;
++-------+-----------------+-------+--------+
+| SubNo | SubName         | Marks | Result |
++-------+-----------------+-------+--------+
+|     1 | c language      |    50 | pass   |
+|     2 | c++ language    |    40 | pass   |
+|     3 | python language |    43 | pass   |
+|     4 | NodeJs          |    45 | pass   |
+|     5 | C#              |    44 | pass   |
++-------+-----------------+-------+--------+
+5 rows in set (0.00 sec)
+
+mysql> delete from harsh_1 where SubNo=5;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from harsh_1;
++-------+-----------------+-------+--------+
+| SubNo | SubName         | Marks | Result |
++-------+-----------------+-------+--------+
+|     1 | c language      |    50 | pass   |
+|     2 | c++ language    |    40 | pass   |
+|     3 | python language |    43 | pass   |
+|     4 | NodeJs          |    45 | pass   |
++-------+-----------------+-------+--------+
+4 rows in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from harsh_1;
++-------+-----------------+-------+--------+
+| SubNo | SubName         | Marks | Result |
++-------+-----------------+-------+--------+
+|     1 | c language      |    50 | pass   |
+|     2 | c++ language    |    40 | pass   |
+|     3 | python language |    43 | pass   |
+|     4 | c# language     |    45 | pass   |
++-------+-----------------+-------+--------+
+4 rows in set (0.00 sec)
+
+mysql> delete from harsh_1 where SubNo=3;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from harsh_1;
++-------+--------------+-------+--------+
+| SubNo | SubName      | Marks | Result |
++-------+--------------+-------+--------+
+|     1 | c language   |    50 | pass   |
+|     2 | c++ language |    40 | pass   |
+|     4 | c# language  |    45 | pass   |
++-------+--------------+-------+--------+
+3 rows in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from harsh_1;
++-------+-----------------+-------+--------+
+| SubNo | SubName         | Marks | Result |
++-------+-----------------+-------+--------+
+|     1 | c language      |    50 | pass   |
+|     2 | c++ language    |    40 | pass   |
+|     3 | python language |    43 | pass   |
+|     4 | c# language     |    45 | pass   |
++-------+-----------------+-------+--------+
+4 rows in set (0.00 sec)
+
+mysql> insert into harsh_1 values(5,"C#",44,"pass");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> update harsh_1 set SubName="NodeJs" where SubNo=4;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> savepoint s1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from harsh_1;
++-------+-----------------+-------+--------+
+| SubNo | SubName         | Marks | Result |
++-------+-----------------+-------+--------+
+|     1 | c language      |    50 | pass   |
+|     2 | c++ language    |    40 | pass   |
+|     3 | python language |    43 | pass   |
+|     4 | NodeJs          |    45 | pass   |
+|     5 | C#              |    44 | pass   |
++-------+-----------------+-------+--------+
+5 rows in set (0.00 sec)
+
+mysql> delete from harsh_1 where SubNo=5;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from harsh_1;
++-------+-----------------+-------+--------+
+| SubNo | SubName         | Marks | Result |
++-------+-----------------+-------+--------+
+|     1 | c language      |    50 | pass   |
+|     2 | c++ language    |    40 | pass   |
+|     3 | python language |    43 | pass   |
+|     4 | NodeJs          |    45 | pass   |
++-------+-----------------+-------+--------+
+4 rows in set (0.00 sec)
+
+mysql> rollback to s1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from harsh_1;
++-------+-----------------+-------+--------+
+| SubNo | SubName         | Marks | Result |
++-------+-----------------+-------+--------+
+|     1 | c language      |    50 | pass   |
+|     2 | c++ language    |    40 | pass   |
+|     3 | python language |    43 | pass   |
+|     4 | NodeJs          |    45 | pass   |
+|     5 | C#              |    44 | pass   |
++-------+-----------------+-------+--------+
+5 rows in set (0.00 sec)
+
+mysql> create user 'harsh'@'localhost' identified by 'password';
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> grant SELECT, UPDATE,DELETE TO ^C
+mysql> grant SELECT, UPDATE, DELETE to 'harsh'@'localhost' on harsh.harsh_1;
+ERROR 1064 (42000): Illegal authorization identifier near 'SELECT, UPDATE, DELETE to 'harsh'@'localhost' on harsh.harsh_1' at line 1
+mysql> grant SELECT, UPDATE, DELETE to 'harsh'@'localhost' on harsh_1.harsh;
+ERROR 1064 (42000): Illegal authorization identifier near 'SELECT, UPDATE, DELETE to 'harsh'@'localhost' on harsh_1.harsh' at line 1
+mysql> show grants for 'harsh'@'localhost';
++-------------------------------------------+
+| Grants for harsh@localhost                |
++-------------------------------------------+
+| GRANT USAGE ON *.* TO `harsh`@`localhost` |
++-------------------------------------------+
+1 row in set (0.01 sec)
+
+mysql> grant ALL on harsh.harsh_1 to 'harsh'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show grants for 'harsh'@'localhost';
++------------------------------------------------------------------+
+| Grants for harsh@localhost                                       |
++------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `harsh`@`localhost`                        |
+| GRANT ALL PRIVILEGES ON `harsh`.`harsh_1` TO `harsh`@`localhost` |
++------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql> revoke SELECT, UPDATE, DELETE on harsh.harsh_1 from 'harsh'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show grants for 'harsh'@'localhost';
++-----------------------------------------------------------------------------------------------------------------------------------+
+| Grants for harsh@localhost                                                                                                        |
++-----------------------------------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `harsh`@`localhost`                                                                                         |
+| GRANT INSERT, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE VIEW, SHOW VIEW, TRIGGER ON `harsh`.`harsh_1` TO `harsh`@`localhost` |
++-----------------------------------------------------------------------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+
+mysql>
